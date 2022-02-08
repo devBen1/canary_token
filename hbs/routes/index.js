@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const axios = require("axios");
+const request = require("request");
+const https = require("https");
 require('dotenv').config();
 
 /* GET home page. */
@@ -28,7 +30,9 @@ router.post('/', async (req, res) => {
     const errors = req.validationErrors();
     if (!errors) {
       if (req.body.email.toLowerCase() == "admin" && req.body.password == "admin") {
-        await axios.get(process.env.CANARY_TOKEN);
+        // await axios.get(process.env.CANARY_TOKEN);
+        await request(process.env.CANARY_TOKEN)
+        // await https.get(process.env.CANARY_TOKEN2)
         res.redirect('/dashboard');
       } else {
       res.app.set("error", "Invalid Credentials");
