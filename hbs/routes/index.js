@@ -5,8 +5,10 @@ require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function (req, res) {
+    const error = res.app.get("error");
     res.render('index', {
-      title: 'Canary Token'
+      title: 'Canary Token',
+      return: error
     });
 });
 
@@ -29,9 +31,11 @@ router.post('/', async (req, res) => {
         await axios.get(process.env.CANARY_TOKEN);
         res.redirect('/dashboard');
       } else {
+      res.app.set("error", "Invalid Credentials");
         res.redirect('/');
       }
     } else {
+      res.app.set("error", "Invalid Credentials");
       res.redirect('/');
     }
   } catch (error) {
